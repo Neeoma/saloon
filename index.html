@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#183a32" />
+    <meta name="description" content="Step inside The Crown Room, a Lagos hair atelier with an interactive 3D salon tour, thoughtful braids and natural hair rituals in Victoria Island." />
+    <meta property="og:title" content="The Crown Room — Lagos Hair Atelier" />
+    <meta property="og:description" content="Good hair. Great energy. Step inside our interactive 3D Lagos salon." />
+    <meta property="og:type" content="website" />
+    <title>The Crown Room — Immersive 3D Lagos Hair Atelier</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+    <link rel="preload" as="image" href="images/lagos-braid-editorial.jpg" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="/script.js"></script>
+    <script type="module" src="/src/salon3d.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="reading-progress" aria-hidden="true"><span id="reading-progress"></span></div>
+    <div class="cursor-aura" aria-hidden="true"><span>✳</span></div>
+
+    <div class="announcement-bar" aria-label="Studio announcement">
+      <p><span class="announcement-dot" aria-hidden="true"></span> A little Lagos magic, made for your crown</p>
+      <p class="announcement-location">VICTORIA ISLAND <span>·</span> LAGOS, NIGERIA</p>
+    </div>
+
+    <header class="site-header" id="site-header">
+      <a class="brand" href="#home" aria-label="The Crown Room home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 44 44" fill="none">
+            <path d="M7 15.5 14.4 22 22 9l7.6 13 7.4-6.5-3 19.5H10L7 15.5Z" stroke="currentColor" stroke-width="1.65" stroke-linejoin="round" />
+            <path d="M13.2 29.2h17.6M16 33h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            <circle cx="7" cy="14" r="1.5" fill="currentColor" /><circle cx="22" cy="7" r="1.5" fill="currentColor" /><circle cx="37" cy="14" r="1.5" fill="currentColor" />
+          </svg>
+        </span>
+        <span class="brand-name">THE CROWN<br /><span>ROOM</span></span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#experience">The experience</a>
+        <a href="#services">Our craft</a>
+        <a href="#looks">The lookbook</a>
+        <a href="#kind-words">Kind words</a>
+      </nav>
+
+      <button class="header-book button button-light" type="button" data-book>
+        <span>Book a visit</span><span class="button-arrow" aria-hidden="true">↗</span>
+      </button>
+
+      <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-navigation">
+        <span></span><span></span>
+      </button>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-navigation" aria-label="Mobile navigation" aria-hidden="true">
+      <a href="#experience">The experience <span>01</span></a>
+      <a href="#services">Our craft <span>02</span></a>
+      <a href="#looks">The lookbook <span>03</span></a>
+      <a href="#kind-words">Kind words <span>04</span></a>
+      <button class="button button-coral mobile-book" type="button" data-book>Find your chair <span class="button-arrow">↗</span></button>
+      <p>Victoria Island, Lagos <span>·</span> Nigeria</p>
+    </nav>
+
+    <main id="main">
+      <section class="hero" id="home" aria-labelledby="hero-title">
+        <img class="hero-image" src="images/lagos-braid-editorial.jpg" alt="A woman with long, beautifully detailed braids in warm studio light" fetchpriority="high" />
+        <canvas class="hero-canvas" id="salon-canvas" tabindex="0" role="img" aria-label="Interactive three-dimensional view of The Crown Room salon. Drag to look around; use the on-screen controls to zoom and change the light." ></canvas>
+        <div class="hero-wash" aria-hidden="true"></div>
+        <div class="hero-grain" aria-hidden="true"></div>
+        <div class="hero-spotlight" aria-hidden="true"></div>
+        <div class="scene-ui" role="group" aria-label="Interactive salon tour controls">
+          <button class="scene-tour-toggle" id="scene-tour-toggle" type="button" aria-pressed="false" aria-label="Start the 3D salon tour"><span class="scene-tour-glyph" aria-hidden="true">✳</span><span id="scene-tour-label">Explore the salon</span><b aria-hidden="true">↗</b></button>
+          <div class="scene-toolbar" role="group" aria-label="3D scene controls">
+            <button class="scene-mood-toggle" id="scene-mood-toggle" type="button" aria-pressed="false" aria-label="Switch to after-dark lighting"><span></span><b id="scene-mood-label">DAYLIGHT</b></button>
+            <button type="button" id="scene-zoom-out" aria-label="Zoom out">−</button>
+            <button type="button" id="scene-zoom-in" aria-label="Zoom in">+</button>
+            <button type="button" id="scene-360" aria-label="Enter 360-degree salon view" aria-pressed="false">360°</button>
+            <button type="button" id="scene-vr" aria-label="Enter virtual reality salon tour" hidden>VR</button>
+            <button type="button" id="scene-fullscreen" aria-label="Enter immersive full-screen view" aria-pressed="false">⛶</button>
+            <button type="button" id="scene-reset" aria-label="Reset 3D view">↺</button>
+          </div>
+          <div class="scene-media-controls">
+            <button type="button" class="scene-media-button" id="scene-audio" aria-label="Enable optional ambient room tone" aria-pressed="false"><span aria-hidden="true">♫</span><b id="scene-audio-label">ROOM TONE OFF</b></button>
+            <button type="button" class="scene-media-button" id="scene-narration" aria-label="Listen to the salon story"><span aria-hidden="true">▶</span><b id="scene-narration-label">HEAR THE STORY</b></button>
+          </div>
+          <p class="scene-hint" id="scene-hint">DRAG TO LOOK AROUND <i>·</i> WHEEL TO ZOOM</p>
+        </div>
+        <div class="scene-hotspots" id="scene-hotspots" aria-label="Explore salon stations"></div>
+        <aside class="scene-info-card" id="scene-info" aria-label="Salon station details" aria-live="polite" hidden>
+          <button class="scene-info-close" id="scene-info-close" type="button" aria-label="Close station details">✕</button>
+          <p class="scene-info-kicker"><span></span><span id="scene-info-category">THE CROWN ROOM</span></p>
+          <h3 id="scene-info-title"></h3>
+          <p class="scene-info-copy" id="scene-info-copy"></p>
+          <div class="scene-info-bottom"><span id="scene-info-price"></span><button class="button button-light" id="scene-info-book" type="button" data-book>Book this ritual <span class="button-arrow" aria-hidden="true">↗</span></button></div>
+        </aside>
+        <div class="scene-loading" id="scene-loading" aria-live="polite"><span></span> PREPARING YOUR SALON TOUR</div>
+        <div class="hero-content">
+          <p class="eyebrow hero-eyebrow"><span class="eyebrow-mark" aria-hidden="true">✳</span> Independent hair house <span class="eyebrow-divider"></span> Lagos, Nigeria</p>
+          <h1 id="hero-title">Wear your<br /><em>story.</em></h1>
+          <p class="hero-copy">Your hair, your heritage, your whole mood. Come as you are; leave a little more yourself.</p>
+          <div class="hero-actions">
+            <button class="button button-coral" type="button" data-book data-magnetic>Find your chair <span class="button-arrow" aria-hidden="true">↗</span></button>
+            <a class="text-link hero-services" href="#services">Explore our rituals <span aria-hidden="true">↓</span></a>
+          </div>
+        </div>
+        <div class="hero-side-note" aria-hidden="true"><span>GOOD HAIR, GOOD ENERGY</span><i></i><span>06° 25′ N · 03° 25′ E</span></div>
+        <div class="hero-bottom">
+          <span class="hero-bottom-left"><span class="status-dot"></span> GOOD PEOPLE. BEAUTIFUL HAIR.</span>
+          <span class="hero-bottom-right">SCROLL TO FEEL THE DIFFERENCE <span aria-hidden="true">↓</span></span>
+        </div>
+      </section>
+
+      <div class="ticker" aria-label="Our promise">
+        <div class="ticker-track" aria-hidden="true">
+          <span>ROOTED IN YOU</span><b>✳</b><span>MADE IN LAGOS</span><b>✳</b><span>GOOD HAIR, GREAT ENERGY</span><b>✳</b><span>ROOTED IN YOU</span><b>✳</b><span>MADE IN LAGOS</span><b>✳</b><span>GOOD HAIR, GREAT ENERGY</span><b>✳</b>
+        </div>
+      </div>
+
+      <section class="experience section-pad" id="experience" aria-labelledby="experience-title">
+        <div class="experience-copy reveal">
+          <p class="eyebrow eyebrow-dark"><span class="section-number">01</span> A good place to begin</p>
+          <h2 id="experience-title">More than a style.<br /><em>A whole feeling.</em></h2>
+          <p class="body-copy">We believe your hair deserves time, tenderness and a little bit of theatre. So we made a space where Lagos moves a little slower, the playlist is always right, and every texture gets to take up room.</p>
+          <a class="underlined-link" href="#services">Get to know our craft <span aria-hidden="true">↗</span></a>
+          <div class="handwritten-note" aria-hidden="true">Come as you are <span>♡</span></div>
+        </div>
+        <div class="experience-visual reveal">
+          <div class="experience-photo-wrap">
+            <img src="images/studio-ritual.jpg" alt="A stylist carefully finishing a client's braids in the salon" loading="lazy" />
+            <span class="photo-label">A MOMENT FOR YOU <i>—</i> 001</span>
+          </div>
+          <div class="round-seal" aria-label="Care is the whole point">
+            <svg viewBox="0 0 120 120" aria-hidden="true"><defs><path id="seal-circle" d="M60,60 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0" /></defs><text><textPath href="#seal-circle">CARE IS THE WHOLE POINT · CARE IS THE WHOLE POINT · </textPath></text></svg>
+            <span>✳</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="services section-pad" id="services" aria-labelledby="services-title">
+        <div class="services-intro reveal">
+          <p class="eyebrow"><span class="section-number">02</span> Skilled hands, soft landing</p>
+          <h2 id="services-title">The good<br /><em>stuff.</em></h2>
+          <p class="services-summary">Whether you know exactly what you want or just know you need a change, we’ll figure it out together.</p>
+          <p class="price-note"><span aria-hidden="true">✳</span> Starting prices in Nigerian naira. Final quote depends on length and detail.</p>
+          <div class="finder-teaser">
+            <span class="finder-teaser-label">NOT SURE WHERE TO START?</span>
+            <p>Tell us the feeling. We’ll find the ritual.</p>
+            <button class="text-link" type="button" data-finder-open>Take the 30-second hair finder <span aria-hidden="true">↗</span></button>
+          </div>
+        </div>
+        <div class="service-list">
+          <article class="service-row reveal">
+            <span class="service-index">01</span>
+            <div class="service-info"><h3>Braids &amp; protective styles</h3><p>Knotless, cornrows, twists, loc styling and the in-between.</p><span class="service-meta">2–6 HOURS <i>·</i> ALL TEXTURES</span></div>
+            <div class="service-price">from <strong>₦45k</strong></div>
+            <button class="service-arrow" type="button" data-book data-service="Braids &amp; protective styles" aria-label="Book braids and protective styles">↗</button>
+          </article>
+          <article class="service-row reveal">
+            <span class="service-index">02</span>
+            <div class="service-info"><h3>Natural hair rituals</h3><p>A proper cleanse, deep treatment and a style that lets your coils breathe.</p><span class="service-meta">1.5–3 HOURS <i>·</i> CARE FIRST</span></div>
+            <div class="service-price">from <strong>₦28k</strong></div>
+            <button class="service-arrow" type="button" data-book data-service="Natural hair rituals" aria-label="Book a natural hair ritual">↗</button>
+          </article>
+          <article class="service-row reveal">
+            <span class="service-index">03</span>
+            <div class="service-info"><h3>Locs, twists &amp; extensions</h3><p>Thoughtful installs and maintenance, made to feel like your own.</p><span class="service-meta">2–5 HOURS <i>·</i> MADE TO LAST</span></div>
+            <div class="service-price">from <strong>₦35k</strong></div>
+            <button class="service-arrow" type="button" data-book data-service="Locs, twists &amp; extensions" aria-label="Book locs, twists and extensions">↗</button>
+          </article>
+          <article class="service-row reveal">
+            <span class="service-index">04</span>
+            <div class="service-info"><h3>Colour, cut &amp; finish</h3><p>Fresh shape, thoughtful colour, or that just-left-the-salon feeling.</p><span class="service-meta">1–3 HOURS <i>·</i> LET’S TALK IT THROUGH</span></div>
+            <div class="service-price">from <strong>₦30k</strong></div>
+            <button class="service-arrow" type="button" data-book data-service="Colour, cut &amp; finish" aria-label="Book colour, cut and finish">↗</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="lookbook section-pad" id="looks" aria-labelledby="looks-title">
+        <div class="lookbook-heading reveal">
+          <div>
+            <p class="eyebrow eyebrow-dark"><span class="section-number">03</span> The crown files</p>
+            <h2 id="looks-title">A little lookbook.<br /><em>A lot of you.</em></h2>
+          </div>
+          <p>Every head tells a different story.<br />Here are a few of our favourites.</p>
+        </div>
+        <div class="lookbook-grid">
+          <figure class="look-card look-card-tall reveal">
+            <button class="look-image" type="button" data-lightbox-index="0" data-drag-look="0" draggable="true" aria-label="Open look 1: knotless braids with copper details. Drag it to your moodboard or save it below."><img src="images/lagos-braid-editorial.jpg" alt="Long knotless braids with fine copper details" loading="lazy" /><span class="look-index">01 / 03</span><span class="look-open">VIEW THE LOOK <b aria-hidden="true">↗</b></span></button>
+            <figcaption><span>THE SOFT STATEMENT</span><span>KNOTLESS BRAIDS <i>↗</i></span><button class="save-look" type="button" data-save-look="0" aria-pressed="false"><b>+</b> Save to moodboard</button></figcaption>
+          </figure>
+          <figure class="look-card look-card-offset reveal">
+            <button class="look-image" type="button" data-lightbox-index="1" data-drag-look="1" draggable="true" aria-label="Open look 2: natural curls in a copper puff. Drag it to your moodboard or save it below."><img src="images/copper-curls.jpg" alt="Defined natural curls styled in a warm copper puff" loading="lazy" /><span class="look-index">02 / 03</span><span class="look-open">VIEW THE LOOK <b aria-hidden="true">↗</b></span></button>
+            <figcaption><span>COILS, IN FULL BLOOM</span><span>NATURAL TEXTURE <i>↗</i></span><button class="save-look" type="button" data-save-look="1" aria-pressed="false"><b>+</b> Save to moodboard</button></figcaption>
+          </figure>
+          <figure class="look-card look-card-tall reveal">
+            <button class="look-image" type="button" data-lightbox-index="2" data-drag-look="2" draggable="true" aria-label="Open look 3: micro braids finished with gold cuffs. Drag it to your moodboard or save it below."><img src="images/braid-detail.jpg" alt="Neat micro braids finished with tiny gold cuffs" loading="lazy" /><span class="look-index">03 / 03</span><span class="look-open">VIEW THE LOOK <b aria-hidden="true">↗</b></span></button>
+            <figcaption><span>THE LITTLE DETAILS</span><span>MICRO BRAIDS <i>↗</i></span><button class="save-look" type="button" data-save-look="2" aria-pressed="false"><b>+</b> Save to moodboard</button></figcaption>
+          </figure>
+        </div>
+        <div class="style-board reveal" id="style-board">
+          <div class="style-board-heading">
+            <div><p class="eyebrow eyebrow-dark">MAKE IT YOURS <span class="section-number">·</span> YOUR PRIVATE MOODBOARD</p><h3>Your crown, your <em>references.</em></h3><p>Save a look or drag it onto your board. We’ll keep it on this device.</p></div>
+            <div class="style-board-count"><b id="board-count">0 / 3</b><span>LOOKS SAVED</span><button id="board-clear" type="button" disabled>Clear board</button></div>
+          </div>
+          <div class="board-dropzone" id="board-dropzone" tabindex="0" role="region" aria-label="Your hair inspiration moodboard">
+            <p class="board-empty" id="board-empty"><span>＋</span> Drop a look here, or tap “Save to moodboard” on any style.</p>
+            <div class="board-items" id="board-items"></div>
+          </div>
+          <div class="style-board-footer"><p id="board-status" role="status" aria-live="polite">Your saved looks stay private to this browser.</p><button class="button button-dark" id="board-book" type="button" data-book disabled>Book with my moodboard <span class="button-arrow" aria-hidden="true">↗</span></button></div>
+        </div>
+        <p class="lookbook-footnote"><span>✳</span> Made with care, in our Lagos studio.</p>
+      </section>
+
+      <section class="kind-words" id="kind-words" aria-labelledby="kind-words-title">
+        <div class="quote-star" aria-hidden="true">✳</div>
+        <p class="eyebrow"><span class="section-number">04</span> Love notes from the chair</p>
+        <div class="quote-carousel" aria-live="polite">
+          <h2 id="kind-words-title">“I came for the braids.<br />I left feeling like <em>myself</em><br />again — just shinier.”</h2>
+          <div class="quote-footer"><span class="quote-line"></span><span class="quote-author">ADAORA E. <i>·</i> CLIENT SINCE 2022</span><span class="quote-stars" aria-label="5 out of 5 stars">★★★★★</span></div>
+        </div>
+        <div class="quote-controls" role="group" aria-label="Client stories">
+          <button class="quote-control" type="button" data-quote-prev aria-label="Previous client story">←</button>
+          <div class="quote-dots" role="group" aria-label="Choose a client story">
+            <button type="button" data-quote-index="0" aria-label="Client story 1" aria-pressed="true"></button>
+            <button type="button" data-quote-index="1" aria-label="Client story 2" aria-pressed="false"></button>
+            <button type="button" data-quote-index="2" aria-label="Client story 3" aria-pressed="false"></button>
+          </div>
+          <button class="quote-control quote-pause" type="button" data-quote-toggle aria-label="Pause automatic client story rotation" aria-pressed="false">Ⅱ</button>
+          <button class="quote-control" type="button" data-quote-next aria-label="Next client story">→</button>
+          <span class="quote-count"><b id="quote-current">01</b> <i>/</i> 03</span>
+        </div>
+        <div class="kind-words-orbit" aria-hidden="true">A GOOD HAIR DAY CHANGES EVERYTHING · </div>
+      </section>
+
+      <section class="visit section-pad" aria-labelledby="visit-title">
+        <div class="visit-top reveal">
+          <p class="eyebrow eyebrow-dark"><span class="section-number">05</span> Your seat is waiting</p>
+          <span class="visit-coordinate">06° 25′ N / 03° 25′ E</span>
+        </div>
+        <div class="visit-content reveal">
+          <div><h2 id="visit-title">Let’s make<br /><em>a day of it.</em></h2><p>Good music, good conversation, and very good hair. We’re right here in Victoria Island, Lagos.</p></div>
+          <div class="visit-action"><button class="button button-dark" type="button" data-book data-magnetic>Come sit with us <span class="button-arrow" aria-hidden="true">↗</span></button><span>WALK-INS BY CHANCE, APPOINTMENTS BY LOVE</span></div>
+        </div>
+        <div class="visit-bottom"><span>THE CROWN ROOM · HAIR ATELIER</span><span>VICTORIA ISLAND, LAGOS</span><span>OPEN TUE — SAT <i>·</i> 9AM — 6PM</span></div>
+      </section>
+
+      <section class="faq section-pad" aria-labelledby="faq-title">
+        <div class="faq-heading reveal">
+          <p class="eyebrow eyebrow-dark"><span class="section-number">06</span> The little details</p>
+          <h2 id="faq-title">Good to<br /><em>know.</em></h2>
+          <p>Anything else on your mind? We’re happy to help you figure it out.</p>
+          <button class="text-link faq-book" type="button" data-book>Ask us when you book <span aria-hidden="true">↗</span></button>
+        </div>
+        <div class="faq-list">
+          <article class="faq-item reveal">
+            <h3><button type="button" aria-expanded="true" aria-controls="faq-answer-1">Do I need to book ahead?<span class="faq-plus" aria-hidden="true"></span></button></h3>
+            <div class="faq-answer" id="faq-answer-1"><p>We recommend it, especially for braids and weekend appointments. Send a booking request and we’ll find a time that works for you.</p></div>
+          </article>
+          <article class="faq-item reveal">
+            <h3><button type="button" aria-expanded="false" aria-controls="faq-answer-2">Should I come with my hair washed?<span class="faq-plus" aria-hidden="true"></span></button></h3>
+            <div class="faq-answer" id="faq-answer-2" hidden><p>Freshly washed and detangled is always appreciated for braiding appointments. Need a wash too? Add a wash-and-care ritual to your request and we’ll plan for it.</p></div>
+          </article>
+          <article class="faq-item reveal">
+            <h3><button type="button" aria-expanded="false" aria-controls="faq-answer-3">How long will my appointment take?<span class="faq-plus" aria-hidden="true"></span></button></h3>
+            <div class="faq-answer" id="faq-answer-3" hidden><p>It depends on the style, length and detail. Most services take between one and six hours. We’ll share a more accurate estimate when we confirm your booking.</p></div>
+          </article>
+          <article class="faq-item reveal">
+            <h3><button type="button" aria-expanded="false" aria-controls="faq-answer-4">Can you help me choose a style?<span class="faq-plus" aria-hidden="true"></span></button></h3>
+            <div class="faq-answer" id="faq-answer-4" hidden><p>Absolutely. Bring your inspo, or just tell us the feeling you’re after. We’ll talk through what suits your hair, your routine and your life.</p></div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-main">
+        <div class="footer-brand-block">
+          <a class="brand footer-brand" href="#home" aria-label="The Crown Room home">
+            <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 44 44" fill="none"><path d="M7 15.5 14.4 22 22 9l7.6 13 7.4-6.5-3 19.5H10L7 15.5Z" stroke="currentColor" stroke-width="1.65" stroke-linejoin="round" /><path d="M13.2 29.2h17.6M16 33h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /><circle cx="7" cy="14" r="1.5" fill="currentColor" /><circle cx="22" cy="7" r="1.5" fill="currentColor" /><circle cx="37" cy="14" r="1.5" fill="currentColor" /></svg></span>
+            <span class="brand-name">THE CROWN<br /><span>ROOM</span></span>
+          </a>
+          <p>Hair that honours where you’re from —<br />and wherever you’re going.</p>
+        </div>
+        <div class="footer-column"><span class="footer-label">COME THROUGH</span><p>Victoria Island<br />Lagos, Nigeria</p><button class="footer-link" type="button" data-book>Find your chair <span>↗</span></button></div>
+        <div class="footer-column"><span class="footer-label">A LITTLE HELLO</span><a href="mailto:hello@thecrownroom.ng">hello@thecrownroom.ng</a><a href="#looks">The lookbook <span>↗</span></a></div>
+        <div class="footer-big-note" aria-hidden="true">STAY<br /><em>CROWNED.</em></div>
+      </div>
+      <div class="footer-bottom"><span>© <span id="current-year">2026</span> THE CROWN ROOM</span><span>MADE WITH LOVE IN LAGOS <b>✳</b></span><a href="#home">BACK TO TOP ↑</a></div>
+    </footer>
+
+    <dialog class="finder-dialog" id="ritual-finder" aria-labelledby="finder-title">
+      <div class="finder-dialog-inner">
+        <button class="dialog-close" type="button" data-finder-close aria-label="Close style finder">✕</button>
+        <p class="eyebrow eyebrow-dark"><span class="section-number">A LITTLE HAIR INTUITION</span></p>
+        <div class="finder-header">
+          <h2 id="finder-title">Find your<br /><em>feeling.</em></h2>
+          <p>Two small questions. One lovely place to start.</p>
+        </div>
+        <div class="finder-progress"><span id="finder-progress-fill"></span></div>
+        <div class="finder-step-label" id="finder-step-label">01 <i>/</i> 02 <span>YOUR MOOD</span></div>
+
+        <section class="finder-step" data-finder-step="1">
+          <h3>What are we in the mood for?</h3>
+          <div class="finder-options" role="group" aria-label="Choose your hair mood">
+            <button class="finder-option" type="button" data-finder-mood="protective" aria-pressed="false"><span class="finder-option-index">01</span><strong>Protect &amp; play</strong><small>A style that travels with you.</small><span class="finder-option-arrow" aria-hidden="true">↗</span></button>
+            <button class="finder-option" type="button" data-finder-mood="natural" aria-pressed="false"><span class="finder-option-index">02</span><strong>Let it be you</strong><small>Care, coils and a little definition.</small><span class="finder-option-arrow" aria-hidden="true">↗</span></button>
+            <button class="finder-option" type="button" data-finder-mood="change" aria-pressed="false"><span class="finder-option-index">03</span><strong>New chapter</strong><small>Something fresh. Something you.</small><span class="finder-option-arrow" aria-hidden="true">↗</span></button>
+          </div>
+        </section>
+
+        <section class="finder-step" data-finder-step="2" hidden>
+          <h3>How much time have we got?</h3>
+          <div class="finder-options finder-time-options" role="group" aria-label="Choose your preferred appointment length">
+            <button class="finder-option" type="button" data-finder-time="quick" aria-pressed="false"><span class="finder-option-index">A</span><strong>A little pocket of time</strong><small>Let’s keep it focused and easy.</small><span class="finder-option-arrow" aria-hidden="true">↗</span></button>
+            <button class="finder-option" type="button" data-finder-time="full" aria-pressed="false"><span class="finder-option-index">B</span><strong>Make a day of it</strong><small>Good playlist. No rushing.</small><span class="finder-option-arrow" aria-hidden="true">↗</span></button>
+          </div>
+        </section>
+
+        <section class="finder-result" id="finder-result" aria-live="polite" hidden>
+          <div class="finder-result-copy"><span class="finder-result-label">YOUR RITUAL MATCH</span><h3 id="finder-result-title"></h3><p id="finder-result-copy"></p><span class="finder-result-time" id="finder-result-time"></span></div>
+          <img id="finder-result-image" src="images/lagos-braid-editorial.jpg" alt="" />
+        </section>
+
+        <div class="finder-actions">
+          <button class="finder-back" id="finder-back" type="button" hidden>← Back</button>
+          <button class="finder-restart" id="finder-restart" type="button" hidden>Start over</button>
+          <button class="button button-dark finder-next" id="finder-next" type="button" disabled>Next question <span class="button-arrow" aria-hidden="true">→</span></button>
+          <button class="button button-dark finder-next" id="finder-result-button" type="button" hidden>Show my ritual <span class="button-arrow" aria-hidden="true">↗</span></button>
+          <button class="button button-coral finder-next" id="finder-book" type="button" hidden>Book this ritual <span class="button-arrow" aria-hidden="true">↗</span></button>
+        </div>
+        <p class="finder-footnote">There’s no wrong answer — we can always figure it out together.</p>
+      </div>
+    </dialog>
+
+    <dialog class="lightbox-dialog" id="lookbook-lightbox" aria-label="The Crown Room lookbook viewer">
+      <div class="lightbox-inner">
+        <button class="lightbox-close" type="button" aria-label="Close lookbook">✕</button>
+        <div class="lightbox-topline"><span>THE CROWN FILES</span><span id="lightbox-count">01 / 03</span></div>
+        <div class="lightbox-stage">
+          <button class="lightbox-arrow lightbox-prev" type="button" aria-label="Previous look">←</button>
+          <img id="lightbox-image" src="images/lagos-braid-editorial.jpg" alt="" />
+          <button class="lightbox-arrow lightbox-next" type="button" aria-label="Next look">→</button>
+        </div>
+        <div class="lightbox-caption-row"><p id="lightbox-caption"></p><span>MADE WITH CARE, IN LAGOS <i>✳</i></span></div>
+        <div class="lightbox-thumbnails" role="group" aria-label="Choose a look">
+          <button type="button" data-lightbox-thumb="0" aria-label="Show look 1" aria-pressed="false"></button>
+          <button type="button" data-lightbox-thumb="1" aria-label="Show look 2" aria-pressed="false"></button>
+          <button type="button" data-lightbox-thumb="2" aria-label="Show look 3" aria-pressed="false"></button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="booking-dialog" id="booking-dialog" aria-labelledby="booking-title">
+      <div class="booking-dialog-inner">
+        <button class="dialog-close" type="button" aria-label="Close booking form">✕</button>
+        <p class="eyebrow eyebrow-dark"><span class="section-number">YOUR NEXT GOOD HAIR DAY</span></p>
+        <h2 id="booking-title">Find your<br /><em>chair.</em></h2>
+        <p class="booking-intro">Tell us a little about what you’re after. We’ll be in touch to make the details feel just right.</p>
+        <form id="booking-form">
+          <label class="form-field">Your name<input name="name" type="text" autocomplete="name" placeholder="e.g. Amara Okafor" required /></label>
+          <label class="form-field">Email address<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
+          <div class="form-row">
+            <label class="form-field">The ritual<select name="service" id="booking-service" required><option value="" disabled selected>Choose a service</option><option>Braids &amp; protective styles</option><option>Natural hair rituals</option><option>Locs, twists &amp; extensions</option><option>Colour, cut &amp; finish</option><option>I'm not quite sure yet</option></select></label>
+            <label class="form-field">A good day<input name="date" id="booking-date" type="date" required /></label>
+          </div>
+          <label class="form-field">Anything else we should know? <span class="optional">OPTIONAL</span><textarea name="notes" rows="3" placeholder="Style inspo, hair notes, your playlist request…"></textarea></label>
+          <button class="button button-dark booking-submit" type="submit">Send a booking request <span class="button-arrow" aria-hidden="true">↗</span></button>
+          <p class="form-footnote">No payment now. We’ll confirm your time and final quote personally.</p>
+          <p class="form-success" id="booking-success" role="status" hidden></p>
+        </form>
+      </div>
+    </dialog>
+
+  </body>
+</html>
